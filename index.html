@@ -1,97 +1,313 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhật Ký Cá Nhân - Cloud</title>
-    <style>
-        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; --border: #334155; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 15px; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 500px; }
-        h2 { color: var(--accent); text-align: center; font-size: 1.2rem; margin: 20px 0; letter-spacing: 2px; }
-        
-        .header-box { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
-        input[type="date"] { background: #0f172a; color: white; border: 1px solid var(--border); padding: 8px; border-radius: 6px; outline: none; font-size: 14px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhật ký của tôi (Dark Mode Full)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Bảng màu Dark Mode giữ hồn Vintage */
+      --paper: #1a1a1a;
+      --ink: #d1d1d1;
+      --accent: #c4a77d;
+      --accent-light: #8b7355;
+      --shadow: rgba(0, 0, 0, 0.5);
+      --border: #332d25;
+      --bg-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    }
 
-        .write-area { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
-        textarea { width: 100%; height: 300px; background: transparent; border: none; color: var(--text); font-size: 16px; line-height: 1.6; resize: none; outline: none; font-family: inherit; }
-        
-        .status { font-size: 11px; color: #94a3b8; margin-top: 10px; text-align: right; }
-        .btn-save { background: var(--accent); color: #0f172a; font-weight: bold; width: 100%; padding: 15px; border-radius: 12px; border: none; cursor: pointer; margin-top: 15px; font-size: 16px; }
-        .btn-save:active { transform: scale(0.98); }
-    </style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--ink);
+      padding: 2rem 1rem;
+      line-height: 1.7;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; }
+
+    header { text-align: center; margin-bottom: 1.5rem; }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent-light);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+    }
+
+    .diary-card {
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: 0 4px 25px var(--shadow);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .diary-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent-light), var(--accent));
+    }
+
+    .toolbar-top, .mood-row, .date-row, .format-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+
+    .date-row label, .mood-row span, .format-toolbar label {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    input[type="date"], .format-select, .mood-btn, .btn-format, input[type="color"] {
+      background: #252525;
+      color: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem;
+      outline: none;
+    }
+
+    .mood-btn { width: 32px; height: 32px; cursor: pointer; transition: 0.2s; }
+    .mood-btn.active { border-color: var(--accent); background: rgba(196, 167, 125, 0.2); transform: scale(1.1); }
+
+    .toolbar-divider { width: 1px; height: 20px; background: var(--border); margin: 0 5px; }
+
+    .format-toolbar { border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+
+    .btn-format { width: 30px; height: 30px; cursor: pointer; font-family: Georgia, serif; font-weight: bold; }
+    .btn-format:hover { background: #333; }
+    .btn-format.active { background: var(--accent); color: #000; }
+
+    .editor-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #121212;
+    }
+
+    #entry-content {
+      width: 100%;
+      min-height: 400px;
+      padding: 1.5rem;
+      font-size: 1.15rem;
+      color: var(--ink);
+      outline: none;
+      overflow-y: auto;
+    }
+
+    #entry-content:empty::before { content: attr(data-placeholder); color: #555; font-style: italic; }
+
+    /* Style cho List (Giữ nguyên từ bản gốc của bạn) */
+    #entry-content ul { padding-left: 1.75rem; margin: 0.5rem 0; }
+    .bullet-heart li::before { content: "♥ "; color: #c45c5c; margin-right: 5px; }
+    .bullet-star li::before { content: "★ "; color: var(--accent); margin-right: 5px; }
+
+    .actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+
+    .btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .btn-primary { background: var(--accent); color: #1a1a1a; }
+    .btn-primary:hover { background: #d4b78d; transform: translateY(-2px); }
+    .btn-secondary { background: #252525; color: var(--accent); border: 1px solid var(--border); }
+
+    .entry-item {
+      background: var(--paper);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+    }
+
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #000; padding: 0.8rem 1.5rem;
+      border-radius: 8px; font-weight: 600; display: none; z-index: 9999;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>Nhật ký của tôi</h1>
+      <p class="subtitle">Hồi ức trong bóng đêm</p>
+    </header>
 
-    <div class="container">
-        <h2>DAILY DIARY</h2>
-
-        <div class="header-box">
-            <span>📅 Chọn ngày:</span>
-            <input type="date" id="date-picker">
+    <div class="diary-card">
+      <div class="toolbar-top">
+        <div class="date-row">
+          <label>Ngày</label>
+          <input type="date" id="entry-date">
         </div>
-
-        <div class="write-area">
-            <textarea id="content" placeholder="Hôm nay của bạn thế nào?"></textarea>
-            <div id="msg" class="status">Đang đợi bạn viết...</div>
+        <span class="toolbar-divider"></span>
+        <div class="mood-row">
+          <span>Tâm trạng</span>
+          <button class="mood-btn" data-mood="😊">😊</button>
+          <button class="mood-btn" data-mood="😌">😌</button>
+          <button class="mood-btn" data-mood="🤔">🤔</button>
+          <button class="mood-btn" data-mood="😢">😢</button>
+          <button class="mood-btn" data-mood="❤️">❤️</button>
+          <button class="mood-btn" data-mood="✨">✨</button>
         </div>
+      </div>
 
-        <button class="btn-save" onclick="save()">LƯU VÀO ĐÁM MÂY</button>
+      <div class="format-toolbar">
+        <label>Font</label>
+        <select id="fmt-font" class="format-select">
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="'Cormorant Garamond'">Cormorant</option>
+          <option value="Verdana">Verdana</option>
+        </select>
+        <button class="btn-format" id="fmt-bold">B</button>
+        <button class="btn-format" id="fmt-italic" style="font-style:italic">I</button>
+        <span class="toolbar-divider"></span>
+        <label>Cỡ</label>
+        <select id="fmt-size" class="format-select">
+          <option value="16">16</option>
+          <option value="18" selected>18</option>
+          <option value="20">20</option>
+          <option value="24">24</option>
+        </select>
+        <label>Màu</label>
+        <input type="color" id="fmt-color" value="#d1d1d1">
+        <span class="toolbar-divider"></span>
+        <label>Đầu dòng</label>
+        <select id="fmt-bullet-type" class="format-select">
+          <option value="disc">• Chấm</option>
+          <option value="heart">♥ Tim</option>
+          <option value="star">★ Sao</option>
+        </select>
+      </div>
+
+      <div class="editor-wrap">
+        <div id="entry-content" contenteditable="true" data-placeholder="Hôm nay của bạn thế nào?..."></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-save">Lưu nhật ký</button>
+        <button class="btn btn-secondary" id="btn-clear">Xóa nội dung</button>
+      </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <section class="entries-section">
+      <h2 style="font-family:'Cormorant Garamond'; color:var(--accent); margin-bottom:1rem">Dòng hồi ức đã ghi</h2>
+      <div id="entries-list"></div>
+    </section>
 
-        // DÙNG CHUNG CONFIG VỚI SƠ ĐỒ CUỘC ĐỜI
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1ddvaaA4iQcTwEnvg0havIt6RsxcBkN4",
-            authDomain: "sodocuocdoi.firebaseapp.com",
-            projectId: "sodocuocdoi",
-            storageBucket: "sodocuocdoi.firebasestorage.app",
-            messagingSenderId: "343754660099",
-            appId: "1:343754660099:web:c916d3f1429a30b643136"
-        };
+    <div class="toast" id="toast">Đã đồng bộ lên Cloud! ✨</div>
+  </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const dateEl = document.getElementById('date-picker');
-        const textEl = document.getElementById('content');
-        const msgEl = document.getElementById('msg');
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1ddvaaA4iQcTwEnvg0havIt6RsxcBkN4",
+      authDomain: "sodocuocdoi.firebaseapp.com",
+      projectId: "sodocuocdoi",
+      storageBucket: "sodocuocdoi.firebasestorage.app",
+      messagingSenderId: "343754660099",
+      appId: "1:343754660099:web:c916d3f1429a30b643136"
+    };
 
-        // Lấy ngày hiện tại
-        const today = new Date().toISOString().split('T')[0];
-        dateEl.value = today;
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const diaryCol = collection(db, "FullDarkDiary");
 
-        // Hàm tải nhật ký (Dùng Collection "MyDiary" để không lẫn với Sơ đồ)
-        async function load(date) {
-            msgEl.innerText = "Đang kiểm tra dữ liệu...";
-            try {
-                const s = await getDoc(doc(db, "MyDiary", date));
-                textEl.value = s.exists() ? s.data().t : "";
-                msgEl.innerText = s.exists() ? "Đã tải nội dung ngày " + date : "Ngày này chưa có nhật ký.";
-            } catch (e) {
-                msgEl.innerText = "Lỗi tải dữ liệu!";
-            }
-        }
+    const contentInput = document.getElementById('entry-content');
+    const dateInput = document.getElementById('entry-date');
+    const entriesList = document.getElementById('entries-list');
+    let selectedMood = '😊';
 
-        dateEl.addEventListener('change', (e) => load(e.target.value));
+    dateInput.value = new Date().toISOString().slice(0, 10);
 
-        window.save = async () => {
-            const date = dateEl.value;
-            const val = textEl.value;
-            msgEl.innerText = "Đang lưu...";
-            try {
-                // Lưu vào Collection "MyDiary"
-                await setDoc(doc(db, "MyDiary", date), { t: val, time: new Date().getTime() });
-                msgEl.innerText = "Đã lưu thành công lúc " + new Date().toLocaleTimeString();
-            } catch (e) {
-                alert("Lỗi lưu! Hãy chắc chắn Rules là 'if true'");
-            }
-        };
+    // --- LOGIC ĐỊNH DẠNG (Khôi phục từ bản của bạn) ---
+    document.getElementById('fmt-bold').onclick = () => document.execCommand('bold');
+    document.getElementById('fmt-italic').onclick = () => document.execCommand('italic');
+    document.getElementById('fmt-font').onchange = (e) => document.execCommand('fontName', false, e.target.value);
+    document.getElementById('fmt-size').onchange = (e) => document.execCommand('fontSize', false, e.target.value); // Lưu ý: fontSize chuẩn HTML là 1-7
+    document.getElementById('fmt-color').onchange = (e) => document.execCommand('foreColor', false, e.target.value);
 
-        load(today);
-    </script>
+    // Xử lý chọn mood
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedMood = btn.dataset.mood;
+      };
+    });
+
+    // --- FIREBASE SAVE ---
+    document.getElementById('btn-save').onclick = async () => {
+      const html = contentInput.innerHTML;
+      if (!html.trim()) return;
+      try {
+        await addDoc(diaryCol, {
+          content: html,
+          date: dateInput.value,
+          mood: selectedMood,
+          timestamp: new Date().getTime()
+        });
+        contentInput.innerHTML = "";
+        const t = document.getElementById('toast');
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+      } catch (e) { alert("Lỗi lưu Cloud!"); }
+    };
+
+    // --- FIREBASE RENDER ---
+    const q = query(diaryCol, orderBy("timestamp", "desc"));
+    onSnapshot(q, (snap) => {
+      entriesList.innerHTML = "";
+      snap.forEach(d => {
+        const data = d.data();
+        entriesList.innerHTML += `
+          <div class="entry-item">
+            <div style="font-size:0.8rem; color:var(--accent); margin-bottom:10px">${data.date} — Tâm trạng: ${data.mood}</div>
+            <div class="entry-content-view">${data.content}</div>
+            <button onclick="deletePost('${d.id}')" style="background:none; border:none; color:#888; cursor:pointer; font-size:0.7rem; margin-top:15px">Xóa bài này</button>
+          </div>
+        `;
+      });
+    });
+
+    window.deletePost = async (id) => {
+      if(confirm("Xóa bài viết này vĩnh viễn?")) await deleteDoc(doc(db, "FullDarkDiary", id));
+    };
+  </script>
 </body>
 </html>
