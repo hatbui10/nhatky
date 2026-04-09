@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Bảng màu Dark Mode giữ hồn Vintage */
       --paper: #1a1a1a;
       --ink: #d1d1d1;
       --accent: #c4a77d;
@@ -31,132 +30,32 @@
     }
 
     .container { max-width: 860px; margin: 0 auto; }
-
     header { text-align: center; margin-bottom: 1.5rem; }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      margin-bottom: 0.25rem;
-    }
-
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--accent-light);
-      font-weight: 500;
-      letter-spacing: 0.2em;
-    }
-
-    .diary-card {
-      background: var(--paper);
-      border-radius: 8px;
-      box-shadow: 0 4px 25px var(--shadow);
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .diary-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--accent-light), var(--accent));
-    }
-
-    .toolbar-top, .mood-row, .date-row, .format-toolbar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.85rem;
-    }
-
-    .date-row label, .mood-row span, .format-toolbar label {
-      font-size: 0.75rem;
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    input[type="date"], .format-select, .mood-btn, .btn-format, input[type="color"] {
-      background: #252525;
-      color: #fff;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.4rem;
-      outline: none;
-    }
-
-    .mood-btn { width: 32px; height: 32px; cursor: pointer; transition: 0.2s; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 0.9rem; color: var(--accent-light); font-weight: 500; letter-spacing: 0.2em; }
+    .diary-card { background: var(--paper); border-radius: 8px; box-shadow: 0 4px 25px var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; border: 1px solid var(--border); }
+    .diary-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--accent-light), var(--accent)); }
+    .toolbar-top, .mood-row, .date-row, .format-toolbar { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; }
+    .date-row label, .mood-row span, .format-toolbar label { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+    input[type="date"], .format-select, .mood-btn, .btn-format, input[type="color"] { background: #252525; color: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem; outline: none; }
+    .mood-btn { width: 32px; height: 32px; cursor: pointer; transition: 0.2s; background: #252525; border: 1px solid var(--border); border-radius: 6px; }
     .mood-btn.active { border-color: var(--accent); background: rgba(196, 167, 125, 0.2); transform: scale(1.1); }
-
     .toolbar-divider { width: 1px; height: 20px; background: var(--border); margin: 0 5px; }
-
     .format-toolbar { border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-
     .btn-format { width: 30px; height: 30px; cursor: pointer; font-family: Georgia, serif; font-weight: bold; }
     .btn-format:hover { background: #333; }
     .btn-format.active { background: var(--accent); color: #000; }
-
-    .editor-wrap {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #121212;
-    }
-
-    #entry-content {
-      width: 100%;
-      min-height: 400px;
-      padding: 1.5rem;
-      font-size: 1.15rem;
-      color: var(--ink);
-      outline: none;
-      overflow-y: auto;
-    }
-
+    .editor-wrap { border: 1px solid var(--border); border-radius: 8px; background: #121212; }
+    #entry-content { width: 100%; min-height: 400px; padding: 1.5rem; font-size: 1.15rem; color: var(--ink); outline: none; overflow-y: auto; }
     #entry-content:empty::before { content: attr(data-placeholder); color: #555; font-style: italic; }
-
-    /* Style cho List (Giữ nguyên từ bản gốc của bạn) */
-    #entry-content ul { padding-left: 1.75rem; margin: 0.5rem 0; }
-    .bullet-heart li::before { content: "♥ "; color: #c45c5c; margin-right: 5px; }
-    .bullet-star li::before { content: "★ "; color: var(--accent); margin-right: 5px; }
-
     .actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
-
-    .btn {
-      padding: 0.7rem 1.5rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: 0.2s;
-    }
-
+    .btn { padding: 0.7rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
     .btn-primary { background: var(--accent); color: #1a1a1a; }
     .btn-primary:hover { background: #d4b78d; transform: translateY(-2px); }
     .btn-secondary { background: #252525; color: var(--accent); border: 1px solid var(--border); }
-
-    .entry-item {
-      background: var(--paper);
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--accent);
-    }
-
-    .toast {
-      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: #000; padding: 0.8rem 1.5rem;
-      border-radius: 8px; font-weight: 600; display: none; z-index: 9999;
-    }
+    .entry-item { background: var(--paper); padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; display: none; z-index: 9999; }
+    .save-btn-active { background-color: #22c55e !important; color: white !important; }
   </style>
 </head>
 <body>
@@ -175,7 +74,7 @@
         <span class="toolbar-divider"></span>
         <div class="mood-row">
           <span>Tâm trạng</span>
-          <button class="mood-btn" data-mood="😊">😊</button>
+          <button class="mood-btn active" data-mood="😊">😊</button>
           <button class="mood-btn" data-mood="😌">😌</button>
           <button class="mood-btn" data-mood="🤔">🤔</button>
           <button class="mood-btn" data-mood="😢">😢</button>
@@ -197,20 +96,13 @@
         <span class="toolbar-divider"></span>
         <label>Cỡ</label>
         <select id="fmt-size" class="format-select">
-          <option value="16">16</option>
-          <option value="18" selected>18</option>
-          <option value="20">20</option>
-          <option value="24">24</option>
+          <option value="3">Nhỏ</option>
+          <option value="4" selected>Vừa</option>
+          <option value="5">Lớn</option>
+          <option value="6">Rất lớn</option>
         </select>
         <label>Màu</label>
         <input type="color" id="fmt-color" value="#d1d1d1">
-        <span class="toolbar-divider"></span>
-        <label>Đầu dòng</label>
-        <select id="fmt-bullet-type" class="format-select">
-          <option value="disc">• Chấm</option>
-          <option value="heart">♥ Tim</option>
-          <option value="star">★ Sao</option>
-        </select>
       </div>
 
       <div class="editor-wrap">
@@ -218,8 +110,8 @@
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="btn-save">Lưu nhật ký</button>
-        <button class="btn btn-secondary" id="btn-clear">Xóa nội dung</button>
+        <button class="btn btn-primary" id="btn-save">LƯU NHẬT KÝ</button>
+        <button class="btn btn-secondary" id="btn-clear">XÓA NỘI DUNG</button>
       </div>
     </div>
 
@@ -233,19 +125,24 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeFirestore, collection, addDoc, query, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // Cấu hình đã sửa đúng Project ID chuẩn
     const firebaseConfig = {
       apiKey: "AIzaSyD1ddvaaA4iQcTwEnvg0havIt6RsxcBkN4",
-      authDomain: "sodocuocdoi.firebaseapp.com",
-      projectId: "sodocuocdoi",
-      storageBucket: "sodocuocdoi.firebasestorage.app",
+      authDomain: "sodocuocdoi-fb23f.firebaseapp.com",
+      projectId: "sodocuocdoi-fb23f",
+      storageBucket: "sodocuocdoi-fb23f.firebasestorage.app",
       messagingSenderId: "343754660099",
       appId: "1:343754660099:web:c916d3f1429a30b643136"
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    
+    // Sử dụng initializeFirestore với Long Polling để chống lỗi Offline trên GitHub Pages
+    const db = initializeFirestore(app, {
+      experimentalForceLongPolling: true
+    });
     const diaryCol = collection(db, "FullDarkDiary");
 
     const contentInput = document.getElementById('entry-content');
@@ -255,14 +152,14 @@
 
     dateInput.value = new Date().toISOString().slice(0, 10);
 
-    // --- LOGIC ĐỊNH DẠNG (Khôi phục từ bản của bạn) ---
+    // --- LOGIC ĐỊNH DẠNG ---
     document.getElementById('fmt-bold').onclick = () => document.execCommand('bold');
     document.getElementById('fmt-italic').onclick = () => document.execCommand('italic');
     document.getElementById('fmt-font').onchange = (e) => document.execCommand('fontName', false, e.target.value);
-    document.getElementById('fmt-size').onchange = (e) => document.execCommand('fontSize', false, e.target.value); // Lưu ý: fontSize chuẩn HTML là 1-7
+    document.getElementById('fmt-size').onchange = (e) => document.execCommand('fontSize', false, e.target.value);
     document.getElementById('fmt-color').onchange = (e) => document.execCommand('foreColor', false, e.target.value);
+    document.getElementById('btn-clear').onclick = () => { if(confirm("Xóa trắng vùng soạn thảo?")) contentInput.innerHTML = ""; };
 
-    // Xử lý chọn mood
     document.querySelectorAll('.mood-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
@@ -271,10 +168,15 @@
       };
     });
 
-    // --- FIREBASE SAVE ---
+    // --- FIREBASE SAVE VỚI HIỆU ỨNG PHẢN HỒI ---
     document.getElementById('btn-save').onclick = async () => {
+      const btn = document.getElementById('btn-save');
       const html = contentInput.innerHTML;
-      if (!html.trim()) return;
+      if (!html.trim() || html === '<br>') return;
+
+      btn.disabled = true;
+      btn.innerText = "ĐANG LƯU...";
+
       try {
         await addDoc(diaryCol, {
           content: html,
@@ -282,11 +184,28 @@
           mood: selectedMood,
           timestamp: new Date().getTime()
         });
+
+        // Hiệu ứng thành công
+        btn.classList.add('save-btn-active');
+        btn.innerText = "ĐÃ LƯU XONG! ✓";
         contentInput.innerHTML = "";
+        
         const t = document.getElementById('toast');
         t.style.display = 'block';
-        setTimeout(() => t.style.display = 'none', 3000);
-      } catch (e) { alert("Lỗi lưu Cloud!"); }
+        
+        setTimeout(() => {
+          t.style.display = 'none';
+          btn.classList.remove('save-btn-active');
+          btn.innerText = "LƯU NHẬT KÝ";
+          btn.disabled = false;
+        }, 2000);
+
+      } catch (e) { 
+        console.error(e);
+        alert("Lỗi kết nối Cloud! Hãy kiểm tra Rules hoặc mạng."); 
+        btn.disabled = false;
+        btn.innerText = "THỬ LẠI";
+      }
     };
 
     // --- FIREBASE RENDER ---
@@ -299,14 +218,14 @@
           <div class="entry-item">
             <div style="font-size:0.8rem; color:var(--accent); margin-bottom:10px">${data.date} — Tâm trạng: ${data.mood}</div>
             <div class="entry-content-view">${data.content}</div>
-            <button onclick="deletePost('${d.id}')" style="background:none; border:none; color:#888; cursor:pointer; font-size:0.7rem; margin-top:15px">Xóa bài này</button>
+            <button onclick="deletePost('${d.id}')" style="background:none; border:none; color:#555; cursor:pointer; font-size:0.7rem; margin-top:15px">Xóa bài này</button>
           </div>
         `;
       });
     });
 
     window.deletePost = async (id) => {
-      if(confirm("Xóa bài viết này vĩnh viễn?")) await deleteDoc(doc(db, "FullDarkDiary", id));
+      if(confirm("Xóa bài viết này vĩnh viễn khỏi Cloud?")) await deleteDoc(doc(db, "FullDarkDiary", id));
     };
   </script>
 </body>
